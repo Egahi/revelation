@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 
             // read RGB triple from infile
             fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
-            printf("RGB = %i%i%i\n", triple.rgbtRed, triple.rgbtGreen, triple.rgbtBlue);
+            // printf("RGB = %i%i%i\n", triple.rgbtRed, triple.rgbtGreen, triple.rgbtBlue);
 /**            // apply different configurations to each pixel to remove "noise"
 
             // remove maxed out red pixels

@@ -80,35 +80,51 @@ int main(int argc, char *argv[])
 
             // read RGB triple from infile
             fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
+            printf("RGB = %i%i%i\n", triple.rgbtRed, triple.rgbtGreen, triple.rgbtBlue);
+/**            // apply different configurations to each pixel to remove "noise"
 
-            // apply different configurations to each pixel to remove "noise"
+            // remove maxed out red pixels
+            if (triple.rgbtRed == 0xff)
+            {
+                // triple.rgbtBlue = 0xaf;
+                // triple.rgbtGreen = 0x80;
+                triple.rgbtRed = 0x00;
+            }
 
-            // change pure white pixels to black
-            if (triple.rgbtBlue == 0xff && triple.rgbtGreen == 0x00 && triple.rgbtRed == 0x00)
+            // remove maxed out blue pixels
+            if (triple.rgbtBlue == 0xff)
+            {
+                triple.rgbtBlue = 0x00;
+                // triple.rgbtGreen = 0x80;
+                // triple.rgbtRed = 0xaf;
+            }
+
+            // remove maxed out green pixels
+            if (triple.rgbtGreen == 0xff)
+            {
+                // triple.rgbtBlue = 0x80;
+                triple.rgbtGreen = 0x00;
+                // triple.rgbtRed = 0xaf;
+            }
+
+
+            // change black pixels to white
+            else if (triple.rgbtBlue == 0x00 && triple.rgbtGreen == 0x00 && triple.rgbtRed == 0x00)
+            {
+                triple.rgbtBlue = 0xff;
+                triple.rgbtGreen = 0xff;
+                triple.rgbtRed = 0xff;
+            }
+
+            // change white pixels to black
+            if (triple.rgbtBlue == 0xff && triple.rgbtGreen == 0xff && triple.rgbtRed == 0xff)
             {
                 triple.rgbtBlue = 0x00;
                 triple.rgbtGreen = 0x00;
                 triple.rgbtRed = 0x00;
             }
 
-/**
-            // change black pixels to blue
-            else if (triple.rgbtBlue == 0x00 && triple.rgbtGreen == 0x00 && triple.rgbtRed == 0x00)
-            {
-                triple.rgbtBlue = 0xff;
-                triple.rgbtGreen = 0x00;
-                triple.rgbtRed = 0x00;
-            }
-
-            // change white pixels to blue
-            if (triple.rgbtBlue == 0xff && triple.rgbtGreen == 0xff && triple.rgbtRed == 0xff)
-            {
-                triple.rgbtBlue = 0xff;
-                triple.rgbtGreen = 0x00;
-                triple.rgbtRed = 0x00;
-            }
 */
-
             // write RGB triple to outfile
             fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
         }
